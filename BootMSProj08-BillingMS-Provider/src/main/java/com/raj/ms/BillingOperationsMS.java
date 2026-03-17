@@ -3,7 +3,6 @@ package com.raj.ms;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/billing-api")
-@RefreshScope
 public class BillingOperationsMS {
 
 	@Value("${spring.application.instance-id}")
 	private String instance_id;
-	
-	@Value("${db.user}")
-	private String user;
-	
-	@Value("${db.password}")
-	private String password;
 	
 	@GetMapping("/doBill")
 	public ResponseEntity<String> generateBillAmount(){
@@ -32,7 +24,7 @@ public class BillingOperationsMS {
 		double bamt = new Random().nextDouble(400000);
 		
 		//show the bill amount
-		return new ResponseEntity<String>("Bill Amount is : "+bamt+" ... "+instance_id+" ... "+user+" ... "+password, HttpStatus.OK);
+		return new ResponseEntity<String>("Bill Amount is : "+bamt+"..."+instance_id, HttpStatus.OK);
 	}
 	
 	@GetMapping("/wish/{user}")

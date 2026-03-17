@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +15,11 @@ import com.raj.client.IBillingMSInvokerClient;
 
 @RestController
 @RequestMapping("/cart-api")
-@RefreshScope
 public class CartOperationsMS {
 
 	@Autowired
 	private IBillingMSInvokerClient client;
 	
-	@Value("${db.user}")
-	private String user;
-	
-	@Value("${db.password}")
-	private String password;
-
 	@GetMapping("/cart/{user}")
 	public ResponseEntity<String> cartOperations(@PathVariable String user){
 		
@@ -41,7 +32,7 @@ public class CartOperationsMS {
 		ResponseEntity<String> resp = client.invokeGenerateBillAmt();
 		
 		//prepare final message having both outputs
-		String finalMsg = "Items Added to cart are "+Arrays.toString(items)+" ... "+resp.getBody()+" ... "+client.invokeShowWishMessage(user)+" ... "+user+" ... "+password;
+		String finalMsg = "Items Added to cart are "+Arrays.toString(items)+"..."+resp.getBody()+"..."+client.invokeShowWishMessage(user);
 		
 		//return the ResponseEntity object
 		return new ResponseEntity<String>(finalMsg,HttpStatus.OK);
